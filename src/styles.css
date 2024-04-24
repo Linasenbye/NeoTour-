@@ -210,7 +210,6 @@ img {
     font-weight: 700;
 }
 
-
 .tour-img {
     width: 100%;
     height: 657px;
@@ -230,7 +229,7 @@ img {
     outline: none;
     background: none;
     cursor: pointer;
-    margin-right: 0.5rem; /* Adjust margin as needed */
+    margin-right: 0.5rem; 
 }
 
 
@@ -286,4 +285,51 @@ img {
     border-radius: 100px;
     padding: 10px;
 
+}
+
+.modal {
+    margin: 2rem;
+}
+
+.title-and-close {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+}
+
+#sub-title {
+    color: #888888;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+
+}
+
+.react-international-phone-input-container .react-international-phone-input, .input-box, .submit-btn {
+    width: 100%;
+    height: 36px;
+}
+
+.counter {
+    width: 15.313rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#button {
+    border-radius: 16px;
+    background-color: #897CFF;
+    width: 42px;
+    height: 48px;
+}
+
+.submit-btn {
+    margin-top: 3rem;
+    border-radius: 28px;
+    background-color: #B4B0DA;
+    color: white;
+    font-size: 1.5rem;
 }
