@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import image from '../images/frame.png'
 import { BsArrowLeftShort } from "react-icons/bs";
 import { BsArrowRightShort } from "react-icons/bs";
-import { HiOutlineArrowLongRight } from "react-icons/hi2";
+import { ReactComponent as ArrowR} from "../icons/arrow-right.svg";
 import { Link } from 'react-router-dom';
 
 import image_ex from '../images/aa927cec67a0ac5884288eeab03bc92b.jpeg'
@@ -26,11 +26,11 @@ const Home = () => {
                 <div className="start-info">
                         <h1 className="title">Winter <br/>Vacation Trips</h1>
                         <p className="sub-title"> Enjoy your winter vacations with warmth and amazing sightseeing on the mountains. Enjoy the best experience with us!</p>
-                        <div className='stat-link'>
+                        <div className='start-link'>
                                 <button className="btn" onClick={scrollToTours}>
                                     <a href="#" className='start'>Let's Go!</a>
                                 </button>
-                                <HiOutlineArrowLongRight/>
+                                <ArrowR/>
                         </div>
                 </div>
                 <div className="start-img">
@@ -55,7 +55,6 @@ const Home = () => {
                         </div>
                         <div className='discovery-options'>
                         <div className='discovery-destination'>
-                            {/* Wrap the image inside a Link component */}
                             <Link to="/tour">
                                 <div className="discovery-image">
                                     <img src={image_ex} alt="Destination"/>

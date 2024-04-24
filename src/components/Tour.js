@@ -4,8 +4,9 @@ import { useState} from 'react';
 import tourIm from "../images/21bf4dc788d92ad82c2a7aa23d2e6542.jpeg"
 import { MdOutlinePlace } from "react-icons/md";
 import reviewer from '../images/38ebe0d6948d90f6ec3b7905d8e27084.jpeg'
-import { HiOutlineArrowLongLeft } from "react-icons/hi2";
 import Modal from "./Modal";
+import { Link } from 'react-router-dom';
+import { ReactComponent as ArrowL} from "../icons/arrow-left.svg";
 
 
 const Tour = () => {
@@ -19,12 +20,14 @@ const Tour = () => {
                         <div>
                             <img className="tour-img" src={tourIm} alt="tour"/>
                         </div>
-                        <div className='back-link'>
-                                <HiOutlineArrowLongLeft />
-                                <button className="btn">
-                                    <a href="#" className='start'>Go back</a>
-                                </button>     
-                        </div>
+                        <Link to="/">
+                            <div className='back-link'>
+                                    <ArrowL/>
+                                    <button className="btn">
+                                        <a href="#" className='start'>Go back</a>
+                                    </button>     
+                            </div>
+                        </Link>
                         <div className='tour-info'>
                             <h1 className="title">Mount Fuji</h1>
                             <div className="location">

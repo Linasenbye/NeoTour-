@@ -1,4 +1,6 @@
 
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+
 * {
     margin: 0;
     padding: 0;
@@ -12,17 +14,19 @@
 }
 .start-page, .discover, .recommend {
     width: 100%;
-    padding-left: 2rem; 
-    padding-right: 2rem; 
+    padding: 11rem;
+}
+
+.discover, .recommend {
+    padding-top: 1rem;
+    padding-bottom: 6rem;
 }
 
 .start-page {
     background: linear-gradient(0deg, rgba(208, 203, 255, 0),rgba(208, 203, 255, 1));
-    padding-top: 11rem;
-    padding-bottom: 11rem;
     display: flex;
     gap: 20px;
-    justify-content: space-around;
+    justify-content: space-between;
     border-bottom: 1px solid black;
 }
 
@@ -42,7 +46,6 @@ h2 {
 }
 
 h3 {
-    padding-top: 8.25rem;
     padding-bottom: 5.125rem;
     font-size: 3rem;
     line-height: 4.05rem;
@@ -70,26 +73,23 @@ button {
     cursor: initial;
 }
 
-.start-link {
+.start-link, .back-link {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
 }
 
 .btn .start {
     color: #FFFFFF;
-    text-shadow: 0 2px 8px 2px rgba(0, 0, 0, 0.25);
     font-size: 1.5rem;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 .sub-title {
     margin-top: 1.5rem;
     font-size: 1.5rem;
     width: 28.5rem;
     height: 7.125rem;
-}
-
-.discover {
-    padding-top: 1.75rem;
-    padding-bottom: 1.75rem; 
 }
 
 .discover-start {
@@ -100,6 +100,7 @@ button {
 }
 
 .icons {
+
     display: flex;
     gap: 1.25rem;
 }
@@ -113,11 +114,12 @@ button {
 }
 
 .categories {
-    width: 33.563rem;
+    width: 60%;
     display: flex;
     flex-direction: row;
     align-items: start;
     justify-content: space-between;
+    margin-top: 2rem;
 }
 
 
@@ -165,11 +167,7 @@ img {
     color: white;
     font-weight: 700;
     font-size: 28px;
-}
-.recommend {
-    padding-top: 1.75rem;
-    padding-bottom: 1.75rem; 
-}
+} 
 
 .recommend-options {
     display: grid;
