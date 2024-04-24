@@ -34,6 +34,9 @@ const OVERLAY_STYLES = {
 const Modal = ({open, onClose}) => {
     const [phone, setPhone] = useState('');
     const [numberOfPeople, setNumberOfPeople] = useState(1);
+    const [comment, setComment] = useState('');
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleIncrement = () => {
         if (numberOfPeople < 6) {
@@ -46,17 +49,71 @@ const Modal = ({open, onClose}) => {
             setNumberOfPeople(prevCount => prevCount - 1);
         }
     };
-    const [comment, setComment] = useState('');
+    
     const handleCommentChange = (e) => {
         setComment(e.target.value);
     };
 
     const handleSubmit = () => {
-        
+        if (!phone || !comment) {
+            setError("Please fill in all required fields.");
+            return;
+        }
+
+        setError(null);
+        setIsSubmitted(true);
+    };
+
+
+    const handleConfirmationClose = () => {
+        setPhone('');
+        setNumberOfPeople(1);
+        setComment('');
+        setError(null);
+        setIsSubmitted(false);
+        onClose();
+    };
+
+    const handleClose = () => {
+        setError(null);
         onClose();
     };
 
     if (!open) return null
+
+    if (isSubmitted) {
+        return ReactDOM.createPortal(
+            <>
+                <div style={OVERLAY_STYLES} onClick={handleConfirmationClose} />
+                <div style={MODAL_STYLES}>
+                    <section className='modal'>
+                        <div className='title-and-close'>
+                            <h2>Your trip has been booked!</h2>
+                        </div>
+                        <button className="submit-btn" onClick={handleConfirmationClose}>Ok</button>
+                    </section>
+                </div>
+            </>,
+            document.getElementById('portal')
+        );
+    }
+    if (error) {
+        return ReactDOM.createPortal(
+            <>
+                <div style={OVERLAY_STYLES} onClick={handleConfirmationClose} />
+                <div style={MODAL_STYLES}>
+                    <section className='modal'>
+                        <div className='title-and-close'>
+                            <h2>The tour can’t be booked</h2>
+                        </div>
+                        <button className="submit-btn" onClick={handleConfirmationClose}>Ok</button>
+                    </section>
+                </div>
+            </>,
+            document.getElementById('portal')
+        );
+    }
+
 
     
 
@@ -100,7 +157,6 @@ const Modal = ({open, onClose}) => {
             <button className="submit-btn" onClick={handleSubmit}>Submit</button>
         </div>
             </section>
-            
         </div>
         </>, 
         document.getElementById('portal')
