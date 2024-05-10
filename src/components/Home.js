@@ -4,12 +4,88 @@ import { BsArrowLeftShort } from "react-icons/bs";
 import { BsArrowRightShort } from "react-icons/bs";
 import { ReactComponent as ArrowR} from "../icons/arrow-right.svg";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import image_ex from '../images/aa927cec67a0ac5884288eeab03bc92b.jpeg'
+
+  
+const API_URL_POPULAR =`http://137.184.224.34:8080/api/products/popular`;
+const API_URL_FEATURED =`http://137.184.224.34:8080/api/products/featured`;
+const API_URL_MOST_VISITED =`http://137.184.224.34:8080/api/products/mostVisited`;
+const API_URL_EUROPE =`http://137.184.224.34:8080/api/products/europe`;
+const API_URL_ASIA =`http://137.184.224.34:8080/api/products/asia`;
+
+
+const API_URL_RECOM =`http://137.184.224.34:8080/api/products/recommended`;
 
 const Home = () => {
 
     const discoverRef = useRef(null);
+    const [tours, setTours] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('popular');
+    const [recommendedTours, setRecommendedTours] = useState([]);
+    
+
+
+
+    useEffect(() => {
+        const fetchTours = async () => {
+            try {
+                let apiUrl = API_URL_POPULAR;
+
+                // Set API URL based on selected category
+                switch (selectedCategory) {
+                    case 'popular':
+                        apiUrl = API_URL_POPULAR;
+                        break;
+                    case 'featured':
+                        apiUrl = API_URL_FEATURED;
+                        break;
+                    case 'mostVisited':
+                        apiUrl = API_URL_MOST_VISITED;
+                        break;
+                    case 'europe':
+                        apiUrl = API_URL_EUROPE;
+                        break;
+                    case 'asia':
+                        apiUrl = API_URL_ASIA;
+                        break;
+                    default:
+                        apiUrl = API_URL_POPULAR;
+                }
+
+                const response = await fetch(apiUrl);
+                if (response.ok) {
+                    const data = await response.json();
+                    setTours(data);
+                } else {
+                    console.log('Failed to fetch data. Status:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchTours();
+    }, [selectedCategory]);
+
+    useEffect(() => {
+        const fetchRecommendedTours = async () => {
+            try {
+                const response = await fetch(API_URL_RECOM);
+                if (response.ok) {
+                    const data = await response.json();
+                    setRecommendedTours(data);
+                } else {
+                    console.log('Failed to fetch recommended tours. Status:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching recommended tours:', error);
+            }
+        };
+
+        fetchRecommendedTours();
+    }, []);
 
     const scrollToTours = () => {
         if (discoverRef.current) {
@@ -47,42 +123,45 @@ const Home = () => {
                             </div>
                         </div>
                         <div className='categories'>
-                            <p className='category'>Popular</p>
-                            <p className='category'>Featured</p>
-                            <p className='category'>Most Visited</p>
-                            <p className='category'>Europe</p>
-                            <p className='category'>Asia</p>
+                            <p className='category' onClick={() => setSelectedCategory('popular')}>Popular</p>
+                            <p className='category' onClick={() => setSelectedCategory('featured')}>Featured</p>
+                            <p className='category' onClick={() => setSelectedCategory('mostVisited')}>Most Visited</p>
+                            <p className='category' onClick={() => setSelectedCategory('europe')}>Europe</p>
+                            <p className='category' onClick={() => setSelectedCategory('asia')}>Asia</p>
                         </div>
                         <div className='discovery-options'>
-                        <div className='discovery-destination'>
-                            <Link to="/tour">
-                                <div className="discovery-image">
-                                    <img src={image_ex} alt="Destination"/>
-                                    <div className='discovery-options-info'>
-                                        <p className='discovery-options-text'>Northern Mountain</p>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div> 
+                            {tours.map(tour => (
+                                <div className='discovery-destination' key={tour.id}>
+                                    <Link to="/tour">
+                                        <div className="discovery-image">
+                                            <img src={tour.imagePath} alt="Destination"/>
+                                            <div className='discovery-options-info'>
+                                                <p className='discovery-options-text'>{tour.name}</p>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div> 
+                            ))}
                     </div>
                 </div>
             </section>
             <section className="recommend">
                 <div className="recommend-info">
-                        <h3>Recommended</h3>
-                        <div className='recommend-options'>
-                            <div className='recommend-destination'>
+                    <h3>Recommended</h3>
+                    <div className='recommend-options'>
+                        {recommendedTours.map(tour => (
+                            <div className='recommend-destination' key={tour.id}>
                                 <div className="recommend-image">
-                                    <img className="recommend-photo" src={image_ex}/>
+                                    <img className="recommend-photo" src={tour.imagePath} alt="Destination"/>
                                     <div className='recommend-options-info'>
-                                        <p className='recommend-options-text'>Greenough, Montana</p>
+                                        <p className='recommend-options-text'>{tour.name}</p>
                                     </div>
                                 </div>
-                            </div> 
-                        </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </section>
-            
+            </section>       
         </section>
     );
 };
