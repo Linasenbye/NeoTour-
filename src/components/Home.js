@@ -4,9 +4,12 @@ import { BsArrowLeftShort } from "react-icons/bs";
 import { BsArrowRightShort } from "react-icons/bs";
 import { ReactComponent as ArrowR} from "../icons/arrow-right.svg";
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
-import image_ex from '../images/aa927cec67a0ac5884288eeab03bc92b.jpeg'
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.min.css';
+import SwiperCore, { Navigation } from 'swiper';
+
 
   
 const API_URL_POPULAR =`http://137.184.224.34:8080/api/products/popular`;
@@ -18,22 +21,20 @@ const API_URL_ASIA =`http://137.184.224.34:8080/api/products/asia`;
 
 const API_URL_RECOM =`http://137.184.224.34:8080/api/products/recommended`;
 
-const Home = () => {
+SwiperCore.use([Navigation]);
 
+const Home = () => {
     const discoverRef = useRef(null);
+    const swiperRef = useRef(null)
     const [tours, setTours] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('popular');
     const [recommendedTours, setRecommendedTours] = useState([]);
     
-
-
-
     useEffect(() => {
         const fetchTours = async () => {
             try {
                 let apiUrl = API_URL_POPULAR;
 
-                // Set API URL based on selected category
                 switch (selectedCategory) {
                     case 'popular':
                         apiUrl = API_URL_POPULAR;
@@ -100,14 +101,14 @@ const Home = () => {
         <section className="home">
             <section className="start-page">
                 <div className="start-info">
-                        <h1 className="title">Winter <br/>Vacation Trips</h1>
-                        <p className="sub-title"> Enjoy your winter vacations with warmth and amazing sightseeing on the mountains. Enjoy the best experience with us!</p>
-                        <div className='start-link'>
-                                <button className="btn" onClick={scrollToTours}>
-                                    <a href="#" className='start'>Let's Go!</a>
-                                </button>
-                                <ArrowR/>
-                        </div>
+                    <h1 className="title">Winter <br/>Vacation Trips</h1>
+                    <p className="sub-title"> Enjoy your winter vacations with warmth and amazing sightseeing on the mountains. Enjoy the best experience with us!</p>
+                    <div className='start-link'>
+                        <button className="btn" onClick={scrollToTours}>
+                            <a href="#" className='start'>Let's Go!</a>
+                        </button>
+                        <ArrowR/>
+                    </div>
                 </div>
                 <div className="start-img">
                     <img src={image}/>
@@ -115,23 +116,28 @@ const Home = () => {
             </section>
             <section ref={discoverRef} className="discover">
                 <div className="discover-info">
-                        <div className='discover-start'>
-                            <h2>Discover</h2>
-                            <div className='icons'>
-                                <BsArrowLeftShort className="icon"/>
-                                <BsArrowRightShort className="icon"/>
-                            </div>
+                    <div className='discover-start'>
+                        <h2>Discover</h2>
+                        <div className='icons'>
+                            <BsArrowLeftShort className="icon" onClick={() => {if (swiperRef.current) swiperRef.current.slidePrev()}}/>
+                            <BsArrowRightShort className="icon" onClick={() => {if (swiperRef.current) swiperRef.current.slideNext()}}/>
                         </div>
-                        <div className='categories'>
-                            <p className='category' onClick={() => setSelectedCategory('popular')}>Popular</p>
-                            <p className='category' onClick={() => setSelectedCategory('featured')}>Featured</p>
-                            <p className='category' onClick={() => setSelectedCategory('mostVisited')}>Most Visited</p>
-                            <p className='category' onClick={() => setSelectedCategory('europe')}>Europe</p>
-                            <p className='category' onClick={() => setSelectedCategory('asia')}>Asia</p>
-                        </div>
-                        <div className='discovery-options'>
-                            {tours.map(tour => (
-                                <div className='discovery-destination' key={tour.id}>
+                    </div>
+                    <div className='categories'>
+                        <p className='category' onClick={() => setSelectedCategory('popular')}>Popular</p>
+                        <p className='category' onClick={() => setSelectedCategory('featured')}>Featured</p>
+                        <p className='category' onClick={() => setSelectedCategory('mostVisited')}>Most Visited</p>
+                        <p className='category' onClick={() => setSelectedCategory('europe')}>Europe</p>
+                        <p className='category' onClick={() => setSelectedCategory('asia')}>Asia</p>
+                    </div>
+                    <Swiper
+                        slidesPerView={3}
+                        direction="horizontal"
+                        onSwiper={(swiper) => { swiperRef.current = swiper; }}
+                    >
+                        {tours.map(tour => (
+                            <SwiperSlide key={tour.id}>
+                                <div className='discovery-destination'>
                                     <Link to="/tour">
                                         <div className="discovery-image">
                                             <img src={tour.imagePath} alt="Destination"/>
@@ -140,9 +146,10 @@ const Home = () => {
                                             </div>
                                         </div>
                                     </Link>
-                                </div> 
-                            ))}
-                    </div>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
             </section>
             <section className="recommend">
@@ -151,12 +158,14 @@ const Home = () => {
                     <div className='recommend-options'>
                         {recommendedTours.map(tour => (
                             <div className='recommend-destination' key={tour.id}>
+                                <Link to="/tour">
                                 <div className="recommend-image">
                                     <img className="recommend-photo" src={tour.imagePath} alt="Destination"/>
                                     <div className='recommend-options-info'>
                                         <p className='recommend-options-text'>{tour.name}</p>
                                     </div>
                                 </div>
+                                </Link>
                             </div>
                         ))}
                     </div>
