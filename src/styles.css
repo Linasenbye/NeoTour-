@@ -286,19 +286,38 @@ img {
     margin-bottom: 40px;
 }
 
-
+.review {
+    margin-bottom: 16px;
+}
 .review-info {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 15px;
-    margin-bottom: 1rem;
 
 }
 .reviewer {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
+}
+.reviewer-name {
+    color: var(--Black, #141414);
+    font-family: Satoshi;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    }
+
+.review-comment {
+    color: var(--Black, #141414);
+    font-family: Satoshi;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 122.222% */
+    margin-top: 16px;
 }
 .book-button {
     margin-top: 10rem;

@@ -63,12 +63,10 @@ const Tour = () => {
                             {tour.reviews.map((review, index) => (
                                 <div className='review' key={index}>
                                     <div className='review-info'>
-                                        <img src={review.reviewerImage} className="reviewer" alt="Reviewer"/>
-                                        <p>{review.reviewer}</p>
-                                    </div>  
-                                    <div>
-                                        <p>{review.comment}</p>
-                                    </div>
+                                        <img src={review.reviewersImagePath} className="reviewer" alt="Reviewer"/>
+                                        <p className='reviewer-name'>{review.reviewer}</p>
+                                    </div>                  
+                                    <p className='review-comment'>{review.comment}</p>
                                 </div>
                             ))}
                             <div className="book-button">
