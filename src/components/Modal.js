@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import {ReactComponent as HumanIcon} from "../icons/human.svg"
-
+import {ReactComponent as Minus} from "../icons/decrement.svg"
+import { ReactComponent as Plus} from "../icons/increment.svg"
 import { ReactComponent as Close} from "../icons/close.svg";
 
 const MODAL_STYLES = {
@@ -31,11 +32,11 @@ const OVERLAY_STYLES = {
 }
 
 
-const Modal = ({open, onClose}) => {
+const Modal = ({ open, onClose, tourId }) => {
     const [phone, setPhone] = useState('');
     const [numberOfPeople, setNumberOfPeople] = useState(1);
     const [comment, setComment] = useState('');
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitted, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
 
     const handleIncrement = () => {
@@ -54,14 +55,37 @@ const Modal = ({open, onClose}) => {
         setComment(e.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!phone || !comment) {
             setError("Please fill in all required fields.");
             return;
         }
 
-        setError(null);
-        setIsSubmitted(true);
+        try {
+            setIsSubmitting(true);
+            const response = await fetch('http://137.184.224.34:8080/api/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId: tourId, 
+                    phoneNumber: phone,
+                    amountOfPeople: numberOfPeople,
+                    comment: comment
+                })
+            });
+
+            if (response.ok) {
+                setIsSubmitting(true);
+            } else {
+                console.error('Failed to submit booking:', response.status);
+                setError('Failed to submit booking. Please try again later.');
+            }
+        } catch (error) {
+            console.error('Error submitting booking:', error);
+            setError('Failed to submit booking. Please try again later.');
+        }
     };
 
 
@@ -70,7 +94,7 @@ const Modal = ({open, onClose}) => {
         setNumberOfPeople(1);
         setComment('');
         setError(null);
-        setIsSubmitted(false);
+        setIsSubmitting(false); 
         onClose();
     };
 
@@ -148,13 +172,13 @@ const Modal = ({open, onClose}) => {
             <div>
                 <p id='sub-title'>Number of People</p>
                  <div className="counter">
-                    <button onClick={handleDecrement} disabled={numberOfPeople === 1} id='button'>-</button>
+                    <button onClick={handleDecrement} disabled={numberOfPeople === 1} id='button'><Minus/></button>
                         <span>{numberOfPeople}</span>
-                    <button onClick={handleIncrement} disabled={numberOfPeople === 6}id='button'>+</button>
+                    <button onClick={handleIncrement} disabled={numberOfPeople === 6}id='button'><Plus/></button>
                     <HumanIcon />
                     <span>{numberOfPeople} People</span>
             </div>
-            <button className="submit-btn" onClick={handleSubmit}>Submit</button>
+            <button className="submit-btn" onClick={handleSubmit}><p className='submit'>Submit</p></button>
         </div>
             </section>
         </div>

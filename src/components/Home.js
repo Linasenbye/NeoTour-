@@ -138,7 +138,7 @@ const Home = () => {
                         {tours.map(tour => (
                             <SwiperSlide key={tour.id}>
                                 <div className='discovery-destination'>
-                                    <Link to="/tour">
+                                    <Link to={`/tour/${tour.id}`}>
                                         <div className="discovery-image">
                                             <img src={tour.imagePath} alt="Destination"/>
                                             <div className='discovery-options-info'>
@@ -154,11 +154,11 @@ const Home = () => {
             </section>
             <section className="recommend">
                 <div className="recommend-info">
-                    <h3>Recommended</h3>
+                    <h2>Recommended</h2>
                     <div className='recommend-options'>
                         {recommendedTours.map(tour => (
                             <div className='recommend-destination' key={tour.id}>
-                                <Link to="/tour">
+                                <Link to={`/tour/${tour.id}`}>
                                 <div className="recommend-image">
                                     <img className="recommend-photo" src={tour.imagePath} alt="Destination"/>
                                     <div className='recommend-options-info'>

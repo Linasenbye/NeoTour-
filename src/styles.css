@@ -37,12 +37,22 @@
 }
 
 h1 {
-    font-size: 6rem;
-    width: 42rem;
+    color: #000;
+    font-family: Satoshi;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
 }
 
 h2 {
-    font-size: 3rem;
+    color: var(--Black, #141414);
+    font-family: Satoshi;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding-bottom: 2rem;
 }
 
 h3 {
@@ -119,7 +129,6 @@ button {
     flex-direction: row;
     align-items: start;
     justify-content: space-between;
-    margin-top: 2rem;
 }
 .category {
     color: var(--Black, #141414);
@@ -222,6 +231,7 @@ img {
 .tour-img {
     width: 100%;
     height: 657px;
+    flex-shrink: 0;
 }
 
 .recommend-options-info .recommend-options-text {
@@ -250,7 +260,9 @@ img {
     margin-right: 0.5rem; 
 }
 
-
+.chosen-tour {
+    width: 100%;
+}
 .tour-info {
     background-color: white;
     top: -200px;
@@ -321,7 +333,6 @@ img {
     color: #888888;
     font-size: 1rem;
     margin-top: 1.5rem;
-
 }
 
 .react-international-phone-input-container .react-international-phone-input, .input-box, .submit-btn {
@@ -335,19 +346,37 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 20px;
 }
 
 #button {
     border-radius: 16px;
-    background-color: #897CFF;
+    background: #897CFF;
     width: 42px;
     height: 48px;
 }
 
 .submit-btn {
+    height: 56px;
     margin-top: 3rem;
     border-radius: 28px;
     background-color: #B4B0DA;
     color: white;
     font-size: 1.5rem;
+}
+
+.submit-btn:hover {
+    margin-top: 3rem;
+    border-radius: 28px;
+    background-color: #6A62B7;
+    color: white;
+    font-size: 1.5rem;
+}
+.submit {
+    color: #FFF;
+    font-family: Satoshi;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
 }

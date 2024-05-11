@@ -1,24 +1,45 @@
-// import axios from 'axios';
-import { useState} from 'react';
-// import { useParams } from 'react-router-dom';
-import tourIm from "../images/21bf4dc788d92ad82c2a7aa23d2e6542.jpeg"
+import { useState, useEffect} from 'react';
+import { useParams } from 'react-router-dom';
 import { MdOutlinePlace } from "react-icons/md";
-import reviewer from '../images/38ebe0d6948d90f6ec3b7905d8e27084.jpeg'
 import Modal from "./Modal";
 import { Link } from 'react-router-dom';
 import { ReactComponent as ArrowL} from "../icons/arrow-left.svg";
 
 
-const Tour = () => {
 
+const Tour = () => {
+    const { tourId } = useParams();
+    const [tour, setTour] = useState(null);
     const [isOpen, setIsOpen] = useState(false)
+
+    useEffect(() => {
+        const fetchTour = async () => {
+            try {
+                const response = await fetch(`http://137.184.224.34:8080/api/products/${tourId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setTour(data);
+                } else {
+                    console.log('Failed to fetch tour data. Status:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching tour data:', error);
+            }
+        };
+
+        fetchTour();
+    }, [tourId]);
+
+    if (!tour) {
+        return <div>Loading...</div>;
+    }
     
     return (
         <>
                 <div className="tour-details home">
                     <section className="chosen-tour">
                         <div>
-                            <img className="tour-img" src={tourIm} alt="tour"/>
+                            <img className="tour-img" src={tour.imagePath} alt="tour"/>
                         </div>
                         <Link to="/">
                             <div className='back-link'>
@@ -29,25 +50,27 @@ const Tour = () => {
                             </div>
                         </Link>
                         <div className='tour-info'>
-                            <h1 className="title">Mount Fuji</h1>
+                            <h1 className="title">{tour.name}</h1>
                             <div className="location">
                                 <MdOutlinePlace />
-                                <p>Honshu, Japan</p>
+                                <p>{tour.location}</p>
                             </div>
                             <div className="description">
                                 <h4>Description</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim eget amet viverra eget fames rhoncus. Eget enim venenatis enim porta egestas malesuada et. Consequat mauris lacus euismod montes.</p>
+                                <p>{tour.description}</p>
                             </div>
                             <h4>Reviews</h4>
-                            <div className='review'>
-                                <div className='review-info'>
-                                    <img src={reviewer} className="reviewer"/>
-                                    <p>Anonymous</p>
-                                </div>  
-                                <div>
-                                    <p>That was such a nice place. The most beautiful place I’ve ever seen. My advice to everyone not to forget to take warm coat</p>
+                            {tour.reviews.map((review, index) => (
+                                <div className='review' key={index}>
+                                    <div className='review-info'>
+                                        <img src={review.reviewerImage} className="reviewer" alt="Reviewer"/>
+                                        <p>{review.reviewer}</p>
+                                    </div>  
+                                    <div>
+                                        <p>{review.comment}</p>
+                                    </div>
                                 </div>
-                            </div>  
+                            ))}
                             <div className="book-button">
                             <button
                                 type="submit"
