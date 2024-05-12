@@ -98,10 +98,6 @@ const Modal = ({ open, onClose, tourId }) => {
         onClose();
     };
 
-    const handleClose = () => {
-        setError(null);
-        onClose();
-    };
 
     if (!open) return null
 
@@ -137,10 +133,6 @@ const Modal = ({ open, onClose, tourId }) => {
             document.getElementById('portal')
         );
     }
-
-
-    
-
 
     return ReactDOM.createPortal(
         <>
